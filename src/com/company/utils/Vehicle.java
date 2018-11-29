@@ -34,17 +34,17 @@ public class Vehicle {
     }
 
     public void buildWay(){
-        double STEP = 0.1;
+        int STEP = 1;
         Point start;
         Point end;
-        double dx, startX;
-        double dy, startY;
+        int dx, startX;
+        int dy, startY;
         for(int i=0; i<route.size(); i++){
             start = route.get(i).getLocation();
             end = route.get((i+1)%route.size()).getLocation();
 
-            dx = end.getX() - start.getX();
-            dy = end.getY() - start.getY();
+            dx = (end.getX() - start.getX())/10;
+            dy = (end.getY() - start.getY())/10;
 
             startX = start.getX();
             startY = start.getY();
