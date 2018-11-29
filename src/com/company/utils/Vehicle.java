@@ -34,7 +34,8 @@ public class Vehicle {
     }
 
     public void buildWay(){
-        int STEP = 1;
+        int STEPX;
+        int STEPY;
         Point start;
         Point end;
         int dx, startX;
@@ -49,10 +50,10 @@ public class Vehicle {
             startX = start.getX();
             startY = start.getY();
 
-            while(startX < end.getX() && startY < end.getY()){
+            while( Math.signum(dx)*(end.getX()- startX) > 0 || Math.signum(dy) *(end.getY() - startY) > 0){
                 way.add(new Point(startX, startY));
-                startX += STEP*dx;
-                startY += STEP*dy;
+                startX += dx;
+                startY += dy;
             }
 
             way.add(new Point(end.getX(), end.getY()));
