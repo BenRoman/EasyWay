@@ -1,7 +1,14 @@
 package com.company.utils;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 
 public class Vehicle {
@@ -16,7 +23,18 @@ public class Vehicle {
     private String name;
     private String id;
     private int currentPosition;
+    private BufferedImage image;
+    private BufferedImage city;
 
+    {
+        try {
+            image = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/icon_sets_school_outline_hand_drawn_colored_iconfinder-18-512.png"));
+            city = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/LvivMap.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Vehicle(String id, String name){
         this.id = id;
@@ -64,6 +82,9 @@ public class Vehicle {
 
     public void move(){
         currentPosition = (currentPosition+1)%way.size();
+        int tmp = currentPosition;
+
+        showMessageDialog(null, route.get(tmp).getName());
     }
 
     public void animate(){
@@ -73,7 +94,7 @@ public class Vehicle {
 
     public void drawVehicle(Graphics g) {
         g.setColor(color);
-        g.fillOval((int)(way.get(currentPosition).getX() - radius), (int)(way.get(currentPosition).getY() - radius),
-                radius * 2, radius * 2);
+        g.drawImage(city , 0 , 0, city.getWidth(), city.getHeight(), null);
+        g.drawImage(image , (int)(way.get(currentPosition).getX() - radius) ,(int)(way.get(currentPosition).getY() - radius) , image.getWidth()/10, image.getHeight()/10, null);
     }
 }
