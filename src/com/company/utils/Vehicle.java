@@ -13,32 +13,31 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Vehicle {
     // temp
-    Color color = new Color((int) (Math.random() * 256),
-            (int) (Math.random() * 256), (int) (Math.random() * 256));
+
     int radius = 15; // Ball radius
     //
 
-    private ArrayList<Stop> route;
-    private ArrayList<Point> way;
-    private String name;
-    private String id;
+    public ArrayList<Stop> route;
+    public ArrayList<Point> way;
+    public String name;
+    public String id;
+    private int speed;
     private int currentPosition;
     private BufferedImage image;
-    private BufferedImage city;
-
     {
         try {
-            image = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/icon_sets_school_outline_hand_drawn_colored_iconfinder-18-512.png"));
-            city = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/LvivMap.png"));
+            image = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/transportation__bus-512.png"));
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Vehicle(String id, String name){
+    public Vehicle(String id, String name , int speed){
         this.id = id;
         this.name = name;
+        this.speed = speed;
         route = new ArrayList<>();
         way = new ArrayList<>();
     }
@@ -62,8 +61,10 @@ public class Vehicle {
             start = route.get(i).getLocation();
             end = route.get((i+1)%route.size()).getLocation();
 
-            dx = (end.getX() - start.getX())/10;
-            dy = (end.getY() - start.getY())/10;
+            dx = (end.getX() - start.getX())/(speed/10);
+            dy = (end.getY() - start.getY())/(speed/10);
+
+
 
             startX = start.getX();
             startY = start.getY();
@@ -81,10 +82,16 @@ public class Vehicle {
     }
 
     public void move(){
+       /* try {
+            Thread.sleep(speed*20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         currentPosition = (currentPosition+1)%way.size();
-        int tmp = currentPosition;
+       /* int tmp = currentPosition;
 
-        showMessageDialog(null, route.get(tmp).getName());
+      showMessageDialog(null, route.get(tmp).getName());
+      */
     }
 
     public void animate(){
@@ -93,8 +100,12 @@ public class Vehicle {
 
 
     public void drawVehicle(Graphics g) {
-        g.setColor(color);
-        g.drawImage(city , 0 , 0, city.getWidth(), city.getHeight(), null);
-        g.drawImage(image , (int)(way.get(currentPosition).getX() - radius) ,(int)(way.get(currentPosition).getY() - radius) , image.getWidth()/10, image.getHeight()/10, null);
+        try {
+            Thread.sleep(speed*20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        g.drawImage(image , (int)(way.get(currentPosition).getX() - radius)+7,(int)(way.get(currentPosition).getY() - radius)+7 , image.getWidth()/30, image.getHeight()/30, null);
+
     }
 }

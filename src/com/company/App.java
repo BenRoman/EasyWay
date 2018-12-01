@@ -18,10 +18,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 
 //region GUI
@@ -84,36 +87,85 @@ import javax.swing.*;
 public class App extends JPanel {
     private static final int D_W = 500;
     private static final int D_H = 300;
+    private BufferedImage city;
 
-    private ArrayList<Vehicle> vehicles = new ArrayList<>();
+    {
+        try {
+            city = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/LvivMap.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public App(JFrame frame){
-       /* ImagePanel panel = new ImagePanel(new ImageIcon("/easyWayDown/src/com/company/IMG/LvivMap.png").getImage());*/
-        Vehicle v1 = new Vehicle("1111", "Bohdan");
-        v1.addStop(new Stop("Личаківська", new Point(40, 40)));
-        v1.addStop(new Stop("Підвальна", new Point(40, 240)));
-        //v1.addStop(new Stop("пл.Ринок", new Point(340, 240)));
-        v1.addStop(new Stop("Приміський Вокзвл", new Point(340, 40)));
-        v1.buildWay();
+    public ArrayList<Vehicle> vehicles = new ArrayList<>();
 
-        vehicles.add(v1);
+    public App( String res){
+        if(res == null || res.isEmpty()) {
+            res="6A";
+        }
+
+        switch(res) {
+
+            case("6A"): {
+
+                Vehicle v1 = new Vehicle("6A", "Bohdan", 80);
+                v1.addStop(new Stop("Личаківська", new Point(40, 40)));
+                v1.addStop(new Stop("Підвальна", new Point(40, 240)));
+                v1.addStop(new Stop("пл.Ринок", new Point(340, 240)));
+                v1.addStop(new Stop("Приміський Вокзвл", new Point(340, 40)));
+                v1.buildWay();
+                vehicles.add(v1);
+                break;
+            }
+            case("3A"): {
+
+                Vehicle v1 = new Vehicle("3A", "Bohdan", 80);
+                v1.addStop(new Stop("A", new Point(80, 290)));
+                v1.addStop(new Stop("B", new Point(50, 20)));
+                //v1.addStop(new Stop("C", new Point(540, 80)));
+                v1.addStop(new Stop("D", new Point(390, 140)));
+                v1.buildWay();
+                vehicles.add(v1);
+                Vehicle v2 = new Vehicle("3A", "Bohdan", 70);
+                //v1.addStop(new Stop("C", new Point(540, 80)));
+                v2.addStop(new Stop("D", new Point(390, 140)));
+                v2.addStop(new Stop("A", new Point(80, 290)));
+                v2.addStop(new Stop("B", new Point(50, 20)));
+
+                v2.buildWay();
+                vehicles.add(v2);
+                break;
+            }
+        }
 
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (Vehicle vehicle : vehicles) {
-                    vehicle.animate();
-                }
 
+                for (Vehicle vehicle : vehicles) {
+                    Thread thread = new Thread(){
+                        public void run(){
+                            vehicle.animate();
+                       }
+                   };
+                    thread.start();
+                }
                 repaint();
-                /*  frame.getContentPane().add(panel);*/
             }
         });
         timer.start();
+
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+   protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        g.drawImage(city , 0 , 0, city.getWidth(), city.getHeight(), null);
+        for(int i = 0 ; i < vehicles.get(0).route.size(); ++i){
+            //g.drawLine(vehicles.get(0).route.get(i).getLocation().getX() , vehicles.get(0).route.get(i).getLocation().getY() , vehicles.get(0).route.get(i+1).getLocation().getX() , vehicles.get(0).route.get(i+1).getLocation().getY()  );
+            g.setColor(Color.red);
+            g.fillOval( vehicles.get(0).route.get(i).getLocation().getX()-5 , vehicles.get(0).route.get(i).getLocation().getY()-5, 10, 10);
+        }
         for (Vehicle vehicle : vehicles) {
             vehicle.drawVehicle(g);
         }
@@ -125,29 +177,12 @@ public class App extends JPanel {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.add(new App(frame));
+        Rb frame = new Rb("");
+
         frame.pack();
+        frame.setLocationRelativeTo( null );
         frame.setVisible(true);
 
-        //region comments
-       /* GUI gui = new GUI();
-        gui.getContentPane().add(panel);
-        gui.setVisible(true);*/
-       /* SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame();
 
-                Container container = frame.getContentPane();
-             //   container.add(new App());
-                container.add(new JLabel(new ImageIcon("C:\\Users\\romas\\OneDrive\\Робочий стіл\\Elements-Free-PNG-Image-1.png")));
-
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });*/
-        //endregion
     }
 }
