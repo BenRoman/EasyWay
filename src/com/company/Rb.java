@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,7 +74,11 @@ class Rb  extends JFrame {
 
         }
         if(res!=""){
-            this.add(new JTextArea(str));
+            Border border = BorderFactory.createLineBorder(Color.BLACK);
+            JTextArea ja = new JTextArea(str);
+            ja.setBorder(BorderFactory.createCompoundBorder(border,
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            this.add(ja);
         }
       //  first.setSelected(true);
     }

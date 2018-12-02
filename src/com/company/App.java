@@ -85,9 +85,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 
 public class App extends JPanel {
-    private static final int D_W = 500;
-    private static final int D_H = 300;
-    private BufferedImage city;
+    public int D_W = 500;
+    public int D_H = 300;
+    public int min_X = 1000;
+    public int max_X = 0;
+    public int min_Y = 1000;
+    public int max_Y = 0;
+    public BufferedImage city;
 
     {
         try {
@@ -136,17 +140,44 @@ public class App extends JPanel {
                 vehicles.add(v2);
                 break;
             }
+            case("16"): {
+
+                Vehicle v1 = new Vehicle("16", "Bohdan", 80);
+                v1.addStop(new Stop("Личаківська", new Point(950, 240)));
+                //v1.addStop(new Stop("Підвальна", new Point(40, 240)));
+                v1.addStop(new Stop("пл.Ринок", new Point(340, 240)));
+                v1.addStop(new Stop("Приміський Вокзвл", new Point(340, 850)));
+                v1.buildWay();
+                vehicles.add(v1);
+                break;
+            }
         }
 
+        if(vehicles.get(0).route.size()>0) {
+            for (int i = 0; i < vehicles.get(0).route.size(); ++i) {
+                if(vehicles.get(0).route.get(i).getLocation().getX() < min_X )
+                    min_X = vehicles.get(0).route.get(i).getLocation().getX();
+                if(vehicles.get(0).route.get(i).getLocation().getY() < min_Y )
+                    min_Y = vehicles.get(0).route.get(i).getLocation().getY();
+                if(vehicles.get(0).route.get(i).getLocation().getY() > max_Y )
+                    max_Y = vehicles.get(0).route.get(i).getLocation().getY();
+                if(vehicles.get(0).route.get(i).getLocation().getX() > max_X )
+                    max_X = vehicles.get(0).route.get(i).getLocation().getX();
+            }
+        }
+        D_W = max_X-min_X+40;
+        D_H = max_Y-min_Y+40;
+       /* showMessageDialog(null, city.getWidth());
+        showMessageDialog(null, city.getHeight());*/
+/*        showMessageDialog(null, min_X);
+        showMessageDialog(null, max_X);
+        showMessageDialog(null, min_Y);
+        showMessageDialog(null, max_Y);*/
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 for (Vehicle vehicle : vehicles) {
-                    Thread thread = new Thread(){
-                        public void run(){
-                            vehicle.animate();
-                       }
-                   };
+                    Thread thread = new Thread(() -> vehicle.animate());
                     thread.start();
                 }
                 repaint();
@@ -159,15 +190,18 @@ public class App extends JPanel {
     @Override
    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        BufferedImage copyOfImage = city.getSubimage(min_X-20, min_Y-20, max_X-min_X+40, max_Y-min_Y+40);
+/*        showMessageDialog(null, copyOfImage.getWidth());
+        showMessageDialog(null, copyOfImage.getHeight());*/
         g.setColor(Color.BLACK);
-        g.drawImage(city , 0 , 0, city.getWidth(), city.getHeight(), null);
+        g.drawImage(copyOfImage , 0 , 0, copyOfImage.getWidth(), copyOfImage.getHeight(), null);
         for(int i = 0 ; i < vehicles.get(0).route.size(); ++i){
             //g.drawLine(vehicles.get(0).route.get(i).getLocation().getX() , vehicles.get(0).route.get(i).getLocation().getY() , vehicles.get(0).route.get(i+1).getLocation().getX() , vehicles.get(0).route.get(i+1).getLocation().getY()  );
             g.setColor(Color.red);
-            g.fillOval( vehicles.get(0).route.get(i).getLocation().getX()-5 , vehicles.get(0).route.get(i).getLocation().getY()-5, 10, 10);
+            g.fillOval( vehicles.get(0).route.get(i).getLocation().getX()+15 - min_X , vehicles.get(0).route.get(i).getLocation().getY()+15 - min_Y, 10, 10);
         }
         for (Vehicle vehicle : vehicles) {
-            vehicle.drawVehicle(g);
+            vehicle.drawVehicle(g , min_X , min_Y);
         }
     }
 

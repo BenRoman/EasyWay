@@ -82,16 +82,8 @@ public class Vehicle {
     }
 
     public void move(){
-       /* try {
-            Thread.sleep(speed*20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         currentPosition = (currentPosition+1)%way.size();
-       /* int tmp = currentPosition;
-
-      showMessageDialog(null, route.get(tmp).getName());
-      */
+       //showMessageDialog(null, route.get(tmp).getName());
     }
 
     public void animate(){
@@ -99,13 +91,13 @@ public class Vehicle {
     }
 
 
-    public void drawVehicle(Graphics g) {
-        try {
+    public void drawVehicle(Graphics g , int a , int b ) {
+      /*  try {
             Thread.sleep(speed*20);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        g.drawImage(image , (int)(way.get(currentPosition).getX() - radius)+7,(int)(way.get(currentPosition).getY() - radius)+7 , image.getWidth()/30, image.getHeight()/30, null);
+        }*/
+        g.drawImage(image , (int)(way.get(currentPosition).getX() - radius )+27 -a,(int)(way.get(currentPosition).getY() - radius)+27 - b , image.getWidth()/30, image.getHeight()/30, null);
 
     }
 }
