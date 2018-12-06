@@ -11,11 +11,11 @@ import static javax.swing.JOptionPane.showMessageDialog;
 class Rb  extends JFrame {
 
     public String res;
-    Rb (String a){
+    Rb (String a) {
         res = a;
         JPanel jp = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        JRadioButton first = new JRadioButton("6A" );
+        JRadioButton first = new JRadioButton("6A");
         first.setActionCommand("6A");
         JRadioButton second = new JRadioButton("3A");
         second.setActionCommand("3A");
@@ -23,6 +23,10 @@ class Rb  extends JFrame {
         third.setActionCommand("16");
         JRadioButton fourth = new JRadioButton("53");
         fourth.setActionCommand("53");
+
+        JRadioButton btn2a = new JRadioButton("2A");
+        btn2a.setActionCommand("2A");
+
         JButton jb = new JButton("OK");
 
         ButtonGroup bG = new ButtonGroup();
@@ -30,6 +34,9 @@ class Rb  extends JFrame {
         bG.add(second);
         bG.add(third);
         bG.add(fourth);
+
+        bG.add(btn2a);
+
         jb.addActionListener(new ActionListener() {
 
             @Override
@@ -41,45 +48,55 @@ class Rb  extends JFrame {
 
                 Rb frame = new Rb(res);
                 frame.pack();
-                frame.setLocationRelativeTo( null );
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
 
         App app = new App(res);
         this.add(app);
-        c.gridx=0;
-        c.gridy=1;
-        jp.add(first , c);
-        c.gridx=0;
-        c.gridy=2;
-        jp.add(second , c );
-        c.gridx=0;
-        c.gridy=3;
-        jp.add(third , c);
-        c.gridx=0;
-        c.gridy=4;
-        jp.add(fourth , c);
-        c.gridx=0;
-        c.gridy=5;
-        jp.add(jb , c);
+        c.gridx = 0;
+        c.gridy = 1;
+        jp.add(first, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        jp.add(second, c);
+        c.gridx = 0;
+        c.gridy = 3;
+        jp.add(third, c);
+        c.gridx = 0;
+        c.gridy = 4;
+        jp.add(fourth, c);
 
-        this.setSize(100,200);
-        this.setLayout( new FlowLayout());
+        c.gridx = 0;
+        c.gridy = 5;
+        jp.add(btn2a, c);
+
+        c.gridx = 0;
+        c.gridy = 6;
+        jp.add(jb, c);
+
+        this.setSize(100, 200);
+        this.setLayout(new FlowLayout());
         this.add(jp);
         //showMessageDialog(null, app.vehicles.get(0).route);
-        String str = "\t"+ app.vehicles.get(0).id+"\n";
-        for (int i =0 ; i < app.vehicles.get(0).route.size();++i){
-            str+=app.vehicles.get(0).route.get(i).getName()+"\n";
 
+        String str = "";
+        if (app.vehicles.size() > 0) {
+            str = "\t" + app.vehicles.get(0).id + "\n";
+            for (int i = 0; i < app.vehicles.get(0).route.size(); ++i) {
+                str += app.vehicles.get(0).route.get(i).getName() + "\n";
+
+            }
         }
-        if(res!=""){
+        if (res != "") {
             Border border = BorderFactory.createLineBorder(Color.BLACK);
             JTextArea ja = new JTextArea(str);
             ja.setBorder(BorderFactory.createCompoundBorder(border,
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
             this.add(ja);
         }
-      //  first.setSelected(true);
+
+        //  first.setSelected(true);
     }
 }

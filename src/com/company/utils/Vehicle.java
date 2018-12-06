@@ -26,8 +26,8 @@ public class Vehicle {
     private BufferedImage image;
     {
         try {
-            image = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/transportation__bus-512.png"));
-
+            //image = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/transportation__bus-512.png"));
+            image = ImageIO.read( new File("src\\com\\company\\IMG\\transportation__bus-512.png"));
 
         } catch (IOException e) {
             e.printStackTrace();

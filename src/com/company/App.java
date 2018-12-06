@@ -17,12 +17,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.net.URI;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -95,10 +95,58 @@ public class App extends JPanel {
 
     {
         try {
-            city = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/LvivMap.png"));
+            File fpic =  new File("src\\com\\company\\IMG\\LvivMap.png");
+            city = ImageIO.read(fpic);
+            //city = ImageIO.read( new File("/easyWayDown/src/com/company/IMG/LvivMap.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    ArrayList<Stop> route2Adef = new ArrayList<>(Arrays.asList(
+            //new Stop("2A", new Point(0,590)),
+        new Stop("Городоцька-Кільцева", new Point(183,538)),
+        new Stop("вул. Ряшівська", new Point(180,558)),
+        new Stop("", new Point(317,584)),
+        new Stop("вул. Люблінська-Виговського", new Point(328,606)),
+        new Stop("", new Point(423,539)),
+        new Stop("вул. Антоновича", new Point(471, 561)),
+        new Stop("вул. Степана Бандери", new Point(589, 457)),
+        new Stop("", new Point(632, 423)),
+        new Stop("Собор Святого Юра", new Point(646, 426)),
+        new Stop("", new Point(669, 446)),
+        new Stop("", new Point(701, 416)),
+        new Stop("вул. Листопадового Чину", new Point(685, 394)),
+        new Stop("", new Point(643, 426)),
+        new Stop("", new Point(628, 427)),
+        new Stop("", new Point(577, 447)),
+        new Stop("", new Point(476, 523)),
+        new Stop("", new Point(457, 513)),
+        new Stop("", new Point(423, 539)),
+        new Stop("", new Point(328, 606)),
+        new Stop("", new Point(317, 584)),
+        new Stop("", new Point(180,558)),
+        new Stop("", new Point(183, 538)),
+        new Stop("", new Point(0, 590))
+    ));
+
+    ArrayList<Stop> Get2ARoute()
+    {
+        ArrayList<Stop> route2A = new ArrayList<>();
+        Random r = new Random();
+        int rand = r.nextInt(route2Adef.size() - 2) + 1;
+
+        for (int i = rand; i != rand - 1;i++ )
+        {
+            if(i == route2Adef.size()) i = 0;
+            route2A.add(route2Adef.get(i));
+        }
+        /*
+        for (Stop stop : route2A)
+            stop.getLocation().setX(stop.getLocation().getX() - 20);
+            */
+
+        return route2A;
     }
 
     public ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -151,9 +199,39 @@ public class App extends JPanel {
                 vehicles.add(v1);
                 break;
             }
+
+            case("2A"):{
+
+                Vehicle v1 = new Vehicle("2A m1", "Bohdan", 90);
+                v1.route.addAll(Get2ARoute());
+                v1.buildWay();
+                vehicles.add(v1);
+
+                Vehicle v2 = new Vehicle("2A m2", "Bohdan", 75);
+                v2.route.addAll(Get2ARoute());
+                v2.buildWay();
+                vehicles.add(v2);
+
+                Vehicle v3 = new Vehicle("2A m3", "Bohdan", 60);
+                v3.route.addAll(Get2ARoute());
+                v3.buildWay();
+                vehicles.add(v3);
+
+                Vehicle v4 = new Vehicle("2A m3", "Bohdan", 50);
+                v4.route.addAll(Get2ARoute());
+                v4.buildWay();
+                vehicles.add(v4);
+
+                Vehicle v5 = new Vehicle("2A m3", "Bohdan", 70);
+                v5.route.addAll(Get2ARoute());
+                v5.buildWay();
+                vehicles.add(v5);
+
+                break;
+            }
         }
 
-        if(vehicles.get(0).route.size()>0) {
+        if(vehicles.size() > 0 && vehicles.get(0).route.size()>0) {
             for (int i = 0; i < vehicles.get(0).route.size(); ++i) {
                 if(vehicles.get(0).route.get(i).getLocation().getX() < min_X )
                     min_X = vehicles.get(0).route.get(i).getLocation().getX();
@@ -190,7 +268,12 @@ public class App extends JPanel {
     @Override
    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        BufferedImage copyOfImage = city.getSubimage(min_X-20, min_Y-20, max_X-min_X+40, max_Y-min_Y+40);
+
+        int x_pos = min_X - 20; if(x_pos < 0) x_pos = 0;
+        int y_pos = min_Y - 20; if(y_pos < 0) y_pos = 0;
+        int width = max_X - min_X + 40;
+        int height = max_Y - min_Y + 40;
+        BufferedImage copyOfImage = city.getSubimage(x_pos, y_pos, width, height);
 /*        showMessageDialog(null, copyOfImage.getWidth());
         showMessageDialog(null, copyOfImage.getHeight());*/
         g.setColor(Color.BLACK);
