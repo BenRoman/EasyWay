@@ -26,6 +26,8 @@ class Rb  extends JFrame {
 
         JRadioButton btn2a = new JRadioButton("2A");
         btn2a.setActionCommand("2A");
+        JRadioButton btn1a = new JRadioButton("1A");
+        btn1a.setActionCommand("1A");
 
         JButton jb = new JButton("OK");
 
@@ -36,6 +38,7 @@ class Rb  extends JFrame {
         bG.add(fourth);
 
         bG.add(btn2a);
+        bG.add(btn1a);
 
         jb.addActionListener(new ActionListener() {
 
@@ -74,6 +77,10 @@ class Rb  extends JFrame {
 
         c.gridx = 0;
         c.gridy = 6;
+        jp.add(btn1a, c);
+
+        c.gridx = 0;
+        c.gridy = 7;
         jp.add(jb, c);
 
         this.setSize(100, 200);
@@ -85,8 +92,9 @@ class Rb  extends JFrame {
         if (app.vehicles.size() > 0) {
             str = "\t" + app.vehicles.get(0).id + "\n";
             for (int i = 0; i < app.vehicles.get(0).route.size(); ++i) {
-                str += app.vehicles.get(0).route.get(i).getName() + "\n";
-
+                String text = app.vehicles.get(0).route.get(i).getName();
+                if (text != "")
+                    str += text + "\n";
             }
         }
         if (res != "") {

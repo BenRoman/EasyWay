@@ -130,6 +130,27 @@ public class App extends JPanel {
         new Stop("", new Point(0, 590))
     ));
 
+    ArrayList<Stop> route1Adef = new ArrayList<>(Arrays.asList(
+            new Stop("ринок \"Галицьке перехрестя\"", new Point(966, 30)),
+            new Stop("Автостанція №2", new Point(909, 132)),
+            new Stop("вул. Бетховена", new Point(817, 134)),
+            new Stop("вул. Замарстинівська", new Point(749,161)),
+            new Stop("Шевченківська райадміністрація", new Point(692, 219)),
+            new Stop("вул. Пантелеймона Куліша", new Point(716, 292)),
+            new Stop("пр. В'ячеслава Чорновола", new Point(728, 351)),
+            new Stop("пл. Галицька", new Point(743, 404)),
+            new Stop("", new Point(794, 396)),
+            new Stop("вул. Підвальна", new Point(778,356)),
+            //
+            new Stop("", new Point(728,351)),
+            new Stop("", new Point(716,292)),
+            new Stop("", new Point(692, 219)),
+            new Stop("", new Point(749, 161)),
+            new Stop("", new Point(817,134)),
+            new Stop("", new Point(909,132)),
+            new Stop("", new Point(966,30))
+    ));
+
     ArrayList<Stop> Get2ARoute()
     {
         ArrayList<Stop> route2A = new ArrayList<>();
@@ -147,6 +168,21 @@ public class App extends JPanel {
             */
 
         return route2A;
+    }
+
+    ArrayList<Stop> Get1ARoute()
+    {
+        ArrayList<Stop> route1A = new ArrayList<>();
+        Random r = new Random();
+        int rand = r.nextInt(route1Adef.size() - 2) + 1;
+
+        for (int i = rand; i != rand - 1;i++ )
+        {
+            if(i == route1Adef.size()) i = 0;
+            route1A.add(route1Adef.get(i));
+        }
+
+        return route1A;
     }
 
     public ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -226,6 +262,26 @@ public class App extends JPanel {
                 v5.route.addAll(Get2ARoute());
                 v5.buildWay();
                 vehicles.add(v5);
+
+                break;
+            }
+
+            case("1A"):
+            {
+                Vehicle v1 = new Vehicle("1A m1", "Bohdan", 90);
+                v1.route.addAll(Get1ARoute());
+                v1.buildWay();
+                vehicles.add(v1);
+
+                Vehicle v2 = new Vehicle("1A m2", "Bohdan", 80);
+                v2.route.addAll(Get1ARoute());
+                v2.buildWay();
+                vehicles.add(v2);
+
+                Vehicle v3 = new Vehicle("1A m2", "Bohdan", 70);
+                v3.route.addAll(Get1ARoute());
+                v3.buildWay();
+                vehicles.add(v3);
 
                 break;
             }
