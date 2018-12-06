@@ -101,33 +101,34 @@ public class App extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     ArrayList<Stop> route2Adef = new ArrayList<>(Arrays.asList(
-            //new Stop("2A", new Point(0,590)),
-        new Stop("Городоцька-Кільцева", new Point(183,538)),
-        new Stop("вул. Ряшівська", new Point(180,558)),
-        new Stop("", new Point(317,584)),
-        new Stop("вул. Люблінська-Виговського", new Point(328,606)),
-        new Stop("", new Point(423,539)),
-        new Stop("вул. Антоновича", new Point(471, 561)),
-        new Stop("вул. Степана Бандери", new Point(589, 457)),
-        new Stop("", new Point(632, 423)),
-        new Stop("Собор Святого Юра", new Point(646, 426)),
-        new Stop("", new Point(669, 446)),
-        new Stop("", new Point(701, 416)),
-        new Stop("вул. Листопадового Чину", new Point(685, 394)),
-        new Stop("", new Point(643, 426)),
-        new Stop("", new Point(628, 427)),
-        new Stop("", new Point(577, 447)),
-        new Stop("", new Point(476, 523)),
-        new Stop("", new Point(457, 513)),
-        new Stop("", new Point(423, 539)),
-        new Stop("", new Point(328, 606)),
-        new Stop("", new Point(317, 584)),
-        new Stop("", new Point(180,558)),
-        new Stop("", new Point(183, 538)),
-        new Stop("", new Point(0, 590))
+        new Stop("", new Point(15,586)),
+        new Stop("Городоцька-Кільцева", new Point(183 + 0,538)),
+        new Stop("вул. Ряшівська", new Point(180 + 0,558)),
+        new Stop("", new Point(317 + 0,584)),
+        new Stop("вул. Люблінська-Виговського", new Point(328 + 0,606)),
+        new Stop("", new Point(423 + 0,539)),
+        new Stop("вул. Антоновича", new Point(471 + 0, 561)),
+        new Stop("вул. Степана Бандери", new Point(589 + 0, 457)),
+        new Stop("", new Point(632 + 0, 423)),
+        new Stop("Собор Святого Юра", new Point(646 + 0, 426)),
+        new Stop("", new Point(669 + 0, 446)),
+        new Stop("", new Point(701 + 0, 416)),
+        new Stop("вул. Листопадового Чину", new Point(685 + 0, 394)),
+        new Stop("", new Point(643 + 0, 426)),
+        new Stop("", new Point(628 + 0, 427)),
+        new Stop("", new Point(577 + 0, 447)),
+        new Stop("", new Point(476 + 0, 523)),
+        new Stop("", new Point(457 + 0, 513)),
+        new Stop("", new Point(423 + 0, 539)),
+        new Stop("", new Point(328 + 0, 606)),
+        new Stop("", new Point(317 + 0, 584)),
+        new Stop("", new Point(180 + 0,558)),
+        new Stop("", new Point(183 + 0, 538)),
+        new Stop("", new Point(15, 586))
     ));
 
     ArrayList<Stop> route1Adef = new ArrayList<>(Arrays.asList(
@@ -151,38 +152,37 @@ public class App extends JPanel {
             new Stop("", new Point(966,30))
     ));
 
-    ArrayList<Stop> Get2ARoute()
+    ArrayList<Stop> GetRouteFrom(ArrayList<Stop> route)
     {
-        ArrayList<Stop> route2A = new ArrayList<>();
+        ArrayList<Stop> new_route = new ArrayList<>();
         Random r = new Random();
-        int rand = r.nextInt(route2Adef.size() - 2) + 1;
+        int rand = r.nextInt(route.size() - 2) + 1;
 
         for (int i = rand; i != rand - 1;i++ )
         {
-            if(i == route2Adef.size()) i = 0;
-            route2A.add(route2Adef.get(i));
+            if(i == route.size()) i = 0;
+            new_route.add(route.get(i));
         }
-        /*
-        for (Stop stop : route2A)
-            stop.getLocation().setX(stop.getLocation().getX() - 20);
-            */
 
-        return route2A;
+        return new_route;
     }
 
-    ArrayList<Stop> Get1ARoute()
+    Vehicle Create2A(int idx, int speed, String name)
     {
-        ArrayList<Stop> route1A = new ArrayList<>();
-        Random r = new Random();
-        int rand = r.nextInt(route1Adef.size() - 2) + 1;
+        Vehicle v = new Vehicle("2A m" + idx, name, speed);
+        v.route.addAll(GetRouteFrom(route2Adef));
+        v.buildWay();
+        vehicles.add(v);
+        return v;
+    }
 
-        for (int i = rand; i != rand - 1;i++ )
-        {
-            if(i == route1Adef.size()) i = 0;
-            route1A.add(route1Adef.get(i));
-        }
-
-        return route1A;
+    Vehicle Create1A(int idx, int speed, String name)
+    {
+        Vehicle v = new Vehicle("1A m" + idx, name, speed);
+        v.route.addAll(GetRouteFrom(route1Adef));
+        v.buildWay();
+        vehicles.add(v);
+        return v;
     }
 
     public ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -238,50 +238,21 @@ public class App extends JPanel {
 
             case("2A"):{
 
-                Vehicle v1 = new Vehicle("2A m1", "Bohdan", 90);
-                v1.route.addAll(Get2ARoute());
-                v1.buildWay();
-                vehicles.add(v1);
-
-                Vehicle v2 = new Vehicle("2A m2", "Bohdan", 75);
-                v2.route.addAll(Get2ARoute());
-                v2.buildWay();
-                vehicles.add(v2);
-
-                Vehicle v3 = new Vehicle("2A m3", "Bohdan", 60);
-                v3.route.addAll(Get2ARoute());
-                v3.buildWay();
-                vehicles.add(v3);
-
-                Vehicle v4 = new Vehicle("2A m3", "Bohdan", 50);
-                v4.route.addAll(Get2ARoute());
-                v4.buildWay();
-                vehicles.add(v4);
-
-                Vehicle v5 = new Vehicle("2A m3", "Bohdan", 70);
-                v5.route.addAll(Get2ARoute());
-                v5.buildWay();
-                vehicles.add(v5);
+                vehicles.add(Create2A(1,90, "Bohdan"));
+                vehicles.add(Create2A(2,75, "Bohdan"));
+                vehicles.add(Create2A(3,60, "Bohdan"));
+                vehicles.add(Create2A(4,50, "Bohdan"));
+                vehicles.add(Create2A(5,70, "Bohdan"));
 
                 break;
             }
 
             case("1A"):
             {
-                Vehicle v1 = new Vehicle("1A m1", "Bohdan", 90);
-                v1.route.addAll(Get1ARoute());
-                v1.buildWay();
-                vehicles.add(v1);
-
-                Vehicle v2 = new Vehicle("1A m2", "Bohdan", 80);
-                v2.route.addAll(Get1ARoute());
-                v2.buildWay();
-                vehicles.add(v2);
-
-                Vehicle v3 = new Vehicle("1A m2", "Bohdan", 70);
-                v3.route.addAll(Get1ARoute());
-                v3.buildWay();
-                vehicles.add(v3);
+                vehicles.add(Create1A(1,90, "Bohdan"));
+                vehicles.add(Create1A(2,82, "Bohdan"));
+                vehicles.add(Create1A(3,75, "Bohdan"));
+                vehicles.add(Create1A(4,63, "Bohdan"));
 
                 break;
             }
@@ -337,7 +308,7 @@ public class App extends JPanel {
         for(int i = 0 ; i < vehicles.get(0).route.size(); ++i){
             //g.drawLine(vehicles.get(0).route.get(i).getLocation().getX() , vehicles.get(0).route.get(i).getLocation().getY() , vehicles.get(0).route.get(i+1).getLocation().getX() , vehicles.get(0).route.get(i+1).getLocation().getY()  );
             g.setColor(Color.red);
-            g.fillOval( vehicles.get(0).route.get(i).getLocation().getX()+15 - min_X , vehicles.get(0).route.get(i).getLocation().getY()+15 - min_Y, 10, 10);
+            g.fillOval( vehicles.get(0).route.get(i).getLocation().getX() + 15 - min_X , vehicles.get(0).route.get(i).getLocation().getY() + 15 - min_Y, 10, 10);
         }
         for (Vehicle vehicle : vehicles) {
             vehicle.drawVehicle(g , min_X , min_Y);
