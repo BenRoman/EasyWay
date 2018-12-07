@@ -152,6 +152,31 @@ public class App extends JPanel {
             new Stop("", new Point(966,30))
     ));
 
+    ArrayList<Stop> route31def = new ArrayList<>(Arrays.asList(
+            new Stop("Залізничний вокзал", new Point(508,411)),
+            new Stop("пл. Кропивницького", new Point(559,430)),
+            new Stop("Церква святої Анни", new Point(670,369)),
+            new Stop("пр. В'ячеслава Чорновола", new Point(730, 349)),
+            new Stop("Шевченківська райадміністрація", new Point(693, 219)),
+            new Stop("вул. Варшавська", new Point(657,109)),
+            new Stop("Замарстинів", new Point(673,69)),
+            new Stop("вул. Гетьмана Мазепи", new Point(708,86)),
+            new Stop("вул. Грінченка", new Point(879, 45)),
+            new Stop("вул. Чигиринська", new Point(941,77)),
+            new Stop("ринок \"Галицьке перехрестя\"", new Point(974,15)),
+            //
+            new Stop("", new Point(941,77)),
+            new Stop("", new Point(879,45)),
+            new Stop("", new Point(708,86)),
+            new Stop("", new Point(673,69)),
+            new Stop("", new Point(657,109)),
+            new Stop("", new Point(693,219)),
+            new Stop("", new Point(730,349)),
+            new Stop("", new Point(670,369)),
+            new Stop("", new Point(559,430)),
+            new Stop("", new Point(508,411))
+    ));
+
     ArrayList<Stop> GetRouteFrom(ArrayList<Stop> route)
     {
         ArrayList<Stop> new_route = new ArrayList<>();
@@ -180,6 +205,14 @@ public class App extends JPanel {
     {
         Vehicle v = new Vehicle("1A m" + idx, name, speed);
         v.route.addAll(GetRouteFrom(route1Adef));
+        v.buildWay();
+        vehicles.add(v);
+        return v;
+    }
+    Vehicle Create31(int idx, int speed, String name)
+    {
+        Vehicle v = new Vehicle("31 m" + idx, name, speed);
+        v.route.addAll(GetRouteFrom(route31def));
         v.buildWay();
         vehicles.add(v);
         return v;
@@ -253,6 +286,17 @@ public class App extends JPanel {
                 vehicles.add(Create1A(2,82, "Bohdan"));
                 vehicles.add(Create1A(3,75, "Bohdan"));
                 vehicles.add(Create1A(4,63, "Bohdan"));
+
+                break;
+            }
+
+            case("31"):
+            {
+                vehicles.add(Create31(1,90, "Bohdan"));
+                vehicles.add(Create31(2,86, "Bohdan"));
+                vehicles.add(Create31(3,74, "Bohdan"));
+                vehicles.add(Create31(4,68, "Bohdan"));
+                vehicles.add(Create31(5,64, "Bohdan"));
 
                 break;
             }

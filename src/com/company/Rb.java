@@ -28,6 +28,8 @@ class Rb  extends JFrame {
         btn2a.setActionCommand("2A");
         JRadioButton btn1a = new JRadioButton("1A");
         btn1a.setActionCommand("1A");
+        JRadioButton btn31 = new JRadioButton("31");
+        btn31.setActionCommand("31");
 
         JButton jb = new JButton("OK");
 
@@ -39,6 +41,7 @@ class Rb  extends JFrame {
 
         bG.add(btn2a);
         bG.add(btn1a);
+        bG.add(btn31);
 
         jb.addActionListener(new ActionListener() {
 
@@ -81,6 +84,10 @@ class Rb  extends JFrame {
 
         c.gridx = 0;
         c.gridy = 7;
+        jp.add(btn31, c);
+
+        c.gridx = 0;
+        c.gridy = 8;
         jp.add(jb, c);
 
         this.setSize(100, 200);
